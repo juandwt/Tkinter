@@ -1,7 +1,7 @@
 # Pomodoro time
 
 <p align="center">
-  <img width="830" height="360" src="pomodoro.jpg">
+  <img width="820" height="350" src="pomodoro.jpg">
 </p>
 
 # Pomodoro break
