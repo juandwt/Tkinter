@@ -1,7 +1,9 @@
 # My first graphical interface
 
+$$
+m \frac{d^2x(t)}{dt^2} + c \frac{dx(t)}{dt} + k x(t) = 0
+$$
 
-$$m * d²x(t)/dt² + c * dx(t)/dt + k * x(t) = 0$$
 
 
 
