@@ -1,7 +1,7 @@
 # My first graphical interface
 
 
-m * d²x(t)/dt² + c * dx(t)/dt + k * x(t) = 0
+$$m * d²x(t)/dt² + c * dx(t)/dt + k * x(t) = 0$$
 
 
 
