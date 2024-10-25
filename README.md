@@ -1,3 +1,14 @@
+# My first graphical interface
+
+
+\[
+m \frac{d^2x(t)}{dt^2} + c \frac{dx(t)}{dt} + k x(t) = 0
+\]
+
+
+
+
+
 # Pomodoro time
 
 <p align="center">
