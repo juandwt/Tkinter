@@ -31,3 +31,10 @@ $$
 \ddot{x}_2 + \frac{k}{m_2 l_2} (x_2 - x_1) + g \frac{x_2}{l_2} = 0
 \end{cases}
 $$
+
+<p align="center">
+  <img with="850" height="390" src="/Guis/Gui_1.png">
+</p>
+
+
+
