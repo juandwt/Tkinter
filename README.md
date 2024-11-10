@@ -22,3 +22,12 @@ $$
 <p align="center">
   <img with="850" height="390" src="gui.jpg">
 </p>
+
+# Sistema de dos pendulos acoplados
+
+$$
+\begin{cases}
+\ddot{x}_1 + \frac{k}{m_1 l_1} (x_1 - x_2) + g \frac{x_1}{l_1} = 0 \\
+\ddot{x}_2 + \frac{k}{m_2 l_2} (x_2 - x_1) + g \frac{x_2}{l_2} = 0
+\end{cases}
+$$
