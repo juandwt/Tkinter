@@ -19,10 +19,6 @@ $$
   <img with="850" height="390" src="break.jpg">
 </p>
 
-<p align="center">
-  <img with="850" height="390" src="gui.jpg">
-</p>
-
 # Sistema de dos pendulos acoplados
 
 $$
