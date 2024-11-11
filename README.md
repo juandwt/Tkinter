@@ -15,6 +15,10 @@
 
 # Sistema de dos pendulos acoplados
 
+<p align="center">
+  <img with="850" height="390" src="/Guis/coupled_pendulum.png">
+</p>
+
 $$
 \begin{cases}
 \ddot{x}_1 + \frac{k}{m_1 } (x_1 - x_2) + g \frac{x_1}{l_1} = 0 \\
