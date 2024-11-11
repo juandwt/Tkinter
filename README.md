@@ -1,22 +1,28 @@
-# My first graphical interface
+# My First Graphical Interface
 
+## Tabla de Contenidos
+1. [Pomodoro](#pomodoro)
+2. [Sistema de dos péndulos acoplados](#sistema-de-dos-péndulos-acoplados)
+3. [Densidad de probabilidad del átomo de hidrógeno](#densidad-de-probabilidad-del-átomo-de-hidrógeno)
 
+---
 
-# Pomodoro time
+## Pomodoro
 
 <p align="center">
   <img width="820" height="350" src="pomodoro.jpg">
 </p>
 
-
 <p align="center">
-  <img with="850" height="390" src="break.jpg">
+  <img width="850" height="390" src="break.jpg">
 </p>
 
-# Sistema de dos pendulos acoplados
+---
+
+## Sistema de dos péndulos acoplados
 
 <p align="center">
-  <img with="800" height="350" src="/Guis/coupled_pendulum.png">
+  <img width="800" height="350" src="/Guis/coupled_pendulum.png">
 </p>
 
 $$
@@ -27,8 +33,10 @@ $$
 $$
 
 <p align="center">
-  <img with="850" height="390" src="/Guis/Gui_1.png">
+  <img width="850" height="390" src="/Guis/Gui_1.png">
 </p>
+
+### Código en Python
 
 ```python
 import tkinter as tk
@@ -73,9 +81,6 @@ v2_0_entry.place(relx=0.7, rely=0.55, anchor='center')
 
 v2_0 = tk.Label(left_frame, text=r'v2(t=0)', fg='#ffffff', bg='#009b88')
 v2_0.place(relx=0.7, rely=0.5, anchor='center')
-
-
-
 
 canvas = None
 
@@ -145,8 +150,4 @@ clean_button = tk.Button(left_frame, text="Clean", command=limpiar_grafica)
 clean_button.config(bg="#009b88", fg="#ffffff", borderwidth=0, highlightthickness=0, relief="flat")
 clean_button.place(relx=0.7, rely=0.8, anchor="center")
 
-
 window.mainloop()
-```
-
-
