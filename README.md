@@ -10,11 +10,11 @@
 ## Pomodoro
 
 <p align="center">
-  <img width="720" height="300" src="pomodoro.jpg">
+  <img width="720" height="350" src="pomodoro.jpg">
 </p>
 
 <p align="center">
-  <img width="720" height="300" src="break.jpg">
+  <img width="720" height="350" src="break.jpg">
 </p>
 
 ---
