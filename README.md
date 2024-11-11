@@ -16,7 +16,7 @@
 # Sistema de dos pendulos acoplados
 
 <p align="center">
-  <img with="850" height="390" src="/Guis/coupled_pendulum.png">
+  <img with="800" height="350" src="/Guis/coupled_pendulum.png">
 </p>
 
 $$
