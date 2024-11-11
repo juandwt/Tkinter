@@ -10,11 +10,11 @@
 ## Pomodoro
 
 <p align="center">
-  <img width="720" height="350" src="pomodoro.jpg">
+  <img width="720" height="300" src="pomodoro.jpg">
 </p>
 
 <p align="center">
-  <img width="720" height="390" src="break.jpg">
+  <img width="720" height="300" src="break.jpg">
 </p>
 
 ---
@@ -22,7 +22,7 @@
 ## Sistema de dos péndulos acoplados
 
 <p align="center">
-  <img width="720" height="390" src="/Guis/coupled_pendulum.png">
+  <img width="720" height="300" src="/Guis/coupled_pendulum.png">
 </p>
 
 $$
