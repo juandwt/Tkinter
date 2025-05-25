@@ -151,3 +151,89 @@ clean_button.config(bg="#009b88", fg="#ffffff", borderwidth=0, highlightthicknes
 clean_button.place(relx=0.7, rely=0.8, anchor="center")
 
 window.mainloop()
+```
+
+# Colitions in Python 
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib import rc
+from matplotlib.animation import FuncAnimation
+
+v1 = 2
+m1 = 1
+m2 = 1
+
+alpha = np.radians(35)
+beta  = np.radians(45)
+
+v1f_magnitud = v1 / (np.cos(beta) + (np.sin(beta) * np.cos(alpha))/ np.sin(alpha))
+v2f_magnitud = (m1 / m2) * (np.sin(beta) / np.sin(alpha)) * v1f_magnitud
+
+v1f = np.array([v1f_magnitud * np.cos(beta), v1f_magnitud * np.sin(beta)]) # [vx, vy]
+v2f = np.array([v2f_magnitud * np.cos(alpha), -v2f_magnitud * np.sin(alpha)]) # [vx, -vy]
+
+p1  = np.array([-5, 0])
+p2  = np.array([0, 0])
+
+v1i = np.array([v1, 0])
+v2i = np.array([0, 0])
+
+fig = plt.figure()
+plt.xlim(-10, 10)
+plt.ylim(-10, 10)
+
+plt.axvline(0, color="gray")
+plt.axhline(0, color="gray")
+
+m1, = plt.plot([0], [0], "o", color="#c60072",  markersize=20)
+m2, = plt.plot([-5], [0], "o", color="#2dc2ff", markersize=20)
+
+t_col = abs(p1[0] / v1i[0])    # d = vt -> d/ v = t
+
+def init():
+  m1.set_data([p1[0]], [p1[1]])
+  m2.set_data([p2[0]], [p2[1]])
+  return m1, m2
+
+def animate(t):
+
+  if t < t_col:
+    
+    x1 = p1[0] + v1i[0] * t
+    y1 = p1[1]
+    
+    x2 = p2[0]
+    y2 = p2[1]
+
+  else:
+    x1 = p2[0] + v1f[0] * (t - t_col)
+    y1 = p2[1] + v1f[1] * (t - t_col)
+    
+    x2 = p2[0] + v2f[0] * (t - t_col)
+    y2 = p2[1] + v2f[1] * (t - t_col)
+
+  m1.set_data([x1], [y1])
+
+  # Tamaño de la masa
+  size = 20 + 1.5 * t
+  
+  m2.set_data([x2], [y2])
+  m2.set_markersize(size)
+  plt.title(f"t = {t:.2f}")
+  
+
+
+  return m1, m2
+
+ani = FuncAnimation(fig, animate, frames=np.linspace(0, 10, 200), init_func=init, 
+                    interval=30, repeat=True)
+
+
+plt.show()
+```
+
+
+
+
