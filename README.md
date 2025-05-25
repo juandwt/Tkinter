@@ -236,4 +236,5 @@ plt.show()
 
 ![Image](https://github.com/user-attachments/assets/45e32adf-6f1b-46ca-be2e-ac986f8cec4c)
 
+<img src="https://github.com/user-attachments/assets/45e32adf-6f1b-46ca-be2e-ac986f8cec4c" width="300"/>
 
