@@ -233,8 +233,7 @@ ani = FuncAnimation(fig, animate, frames=np.linspace(0, 10, 200), init_func=init
 
 plt.show()
 ```
-
-![Image](https://github.com/user-attachments/assets/45e32adf-6f1b-46ca-be2e-ac986f8cec4c)
-
-<img src="https://github.com/user-attachments/assets/45e32adf-6f1b-46ca-be2e-ac986f8cec4c" width="300"/>
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/45e32adf-6f1b-46ca-be2e-ac986f8cec4c" width="500"/>
+</div>
 
