@@ -283,11 +283,13 @@ def graficar():
     limpiar_grafica()
 
     v1 = float(v1_0_entry.get())
-    m1 = float(m1_0_entry.get())
+    m1 = np.random.randint(1, 5) #float(m1_0_entry.get())
+    print(m1)
+    
     m2 = 1
     
-    alpha = np.radians(35)
-    beta  = np.radians(45)
+    alpha = np.radians(np.random.randint(10, 60))
+    beta  = np.radians(np.random.randint(10, 60))
     
     v1f_magnitud = v1 / (np.cos(beta) + (np.sin(beta) * np.cos(alpha))/ np.sin(alpha))
     v2f_magnitud = (m1 / m2) * (np.sin(beta) / np.sin(alpha)) * v1f_magnitud
@@ -303,13 +305,32 @@ def graficar():
     
     fig = plt.figure()
     plt.xlim(-10, 10)
-    plt.ylim(-10, 10)
+    plt.ylim(-15, 15)
     
     plt.axvline(0, color="gray")
     plt.axhline(0, color="gray")
     
-    m1, = plt.plot([0], [0], "o", color="#c60072",  markersize=20)
-    m2, = plt.plot([-5], [0], "o", color="#2dc2ff", markersize=20)
+    x_detector = [8, 8]
+    y_detector = [-10, 10]
+
+    plt.plot(x_detector, y_detector, color="black")
+
+    plt.plot()
+    
+    m1,  = plt.plot([0], [0], "o", color="#91a6ab",  markersize=10)
+    m8,  = plt.plot([0], [2.5], "o", color="#c60072",  markersize=10)
+    m9,  = plt.plot([0], [5], "o", color="#c60072",  markersize=10)
+    m10, = plt.plot([0], [-2.5], "o", color="#c60072",  markersize=10)
+    m11, = plt.plot([0], [-5], "o", color="#c60072",  markersize=10)
+    
+    
+    m2, = plt.plot([-5],[0], "o", color="#c60072", markersize=10)
+    
+    m3, = plt.plot([5], [5], "o", color="#2dc2ff", markersize=20)
+    m4, = plt.plot([5], [2.5], "o", color="#2dc2ff", markersize=20)
+    m5, = plt.plot([5], [0], "o", color="#2dc2ff", markersize=20)
+    m6, = plt.plot([5], [-2.5], "o", color="#2dc2ff", markersize=20)
+    m7, = plt.plot([5], [-5], "o", color="#2dc2ff", markersize=20)
     
     t_col = abs(p1[0] / v1i[0])    # d = vt -> d/ v = t
     
