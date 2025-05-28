@@ -237,3 +237,150 @@ plt.show()
   <img src="https://github.com/user-attachments/assets/45e32adf-6f1b-46ca-be2e-ac986f8cec4c" width="500"/>
 </div>
 
+# Implementación de botones
+
+```
+import tkinter as tk
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from scipy.integrate import solve_ivp
+from matplotlib.animation import FuncAnimation
+
+window = tk.Tk()
+window.config(bg="#ffffff")
+window.minsize(1000, 450)
+window.maxsize(1000, 450)
+
+left_frame = tk.Frame(window, width=200, height=450, bg="#009b88")
+left_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=False)
+left_frame.pack_propagate(False)
+
+right_frame = tk.Frame(window, width=800, height=450, bg="#ffffff")
+right_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=False)
+right_frame.pack_propagate(False)
+
+
+# Boton 1 -> velocidad (m/1) inicial de m1 
+
+v1_0_entry = tk.Entry(left_frame, width=6)
+v1_0_entry.place(relx=0.4, rely=0.4, anchor='center')
+v1_0 = tk.Label(left_frame, text=r'v1i', fg='#ffffff', bg='#009b88')
+v1_0.place(relx=0.4, rely=0.35, anchor='center')
+
+# Boton 2 -> masa m1 (kg)
+
+m1_0_entry = tk.Entry(left_frame, width=6)
+m1_0_entry.place(relx=0.7, rely=0.4, anchor='center')
+m1_0 = tk.Label(left_frame, text=r'm1', fg='#ffffff', bg='#009b88')
+m1_0.place(relx=0.7, rely=0.35, anchor='center')
+
+
+canvas = None
+
+def graficar():
+    global canvas
+    limpiar_grafica()
+
+    v1 = float(v1_0_entry.get())
+    m1 = float(m1_0_entry.get())
+    m2 = 1
+    
+    alpha = np.radians(35)
+    beta  = np.radians(45)
+    
+    v1f_magnitud = v1 / (np.cos(beta) + (np.sin(beta) * np.cos(alpha))/ np.sin(alpha))
+    v2f_magnitud = (m1 / m2) * (np.sin(beta) / np.sin(alpha)) * v1f_magnitud
+    
+    v1f = np.array([v1f_magnitud * np.cos(beta), v1f_magnitud * np.sin(beta)]) # [vx, vy]
+    v2f = np.array([v2f_magnitud * np.cos(alpha), -v2f_magnitud * np.sin(alpha)]) # [vx, -vy]
+    
+    p1  = np.array([-5, 0])
+    p2  = np.array([0, 0])
+    
+    v1i = np.array([v1, 0])
+    v2i = np.array([0, 0])
+    
+    fig = plt.figure()
+    plt.xlim(-10, 10)
+    plt.ylim(-10, 10)
+    
+    plt.axvline(0, color="gray")
+    plt.axhline(0, color="gray")
+    
+    m1, = plt.plot([0], [0], "o", color="#c60072",  markersize=20)
+    m2, = plt.plot([-5], [0], "o", color="#2dc2ff", markersize=20)
+    
+    t_col = abs(p1[0] / v1i[0])    # d = vt -> d/ v = t
+    
+    def init():
+      m1.set_data([p1[0]], [p1[1]])
+      m2.set_data([p2[0]], [p2[1]])
+      return m1, m2
+    
+    def animate(t):
+    
+      if t < t_col:
+        
+        x1 = p1[0] + v1i[0] * t
+        y1 = p1[1]
+        
+        x2 = p2[0]
+        y2 = p2[1]
+    
+      else:
+        x1 = p2[0] + v1f[0] * (t - t_col)
+        y1 = p2[1] + v1f[1] * (t - t_col)
+        
+        x2 = p2[0] + v2f[0] * (t - t_col)
+        y2 = p2[1] + v2f[1] * (t - t_col)
+    
+      m1.set_data([x1], [y1])
+    
+      # Tamaño de la masa
+      #size = 20 + 1.5 * t
+      
+      m2.set_data([x2], [y2])
+      #m2.set_markersize(size)
+      plt.title(f"t = {t:.2f}")
+      
+    
+    
+      return m1, m2
+    
+    ani = FuncAnimation(fig, animate, frames=np.linspace(0, 10, 200), init_func=init, 
+                        interval=30, repeat=True)
+    
+    
+    canvas = FigureCanvasTkAgg(fig, master=right_frame)
+    canvas.draw()
+    canvas.get_tk_widget().pack(side=tk.TOP, fill="both", expand=1)
+
+
+def limpiar_grafica():
+    global canvas
+    if canvas is not None:
+        canvas.get_tk_widget().pack_forget()  
+        canvas = None  
+
+def cerrar():
+    window.destroy()
+    window.quit()
+
+solve_button = tk.Button(left_frame, text="Solve", command=graficar)
+solve_button.config(bg="#009b88", fg="#ffffff", borderwidth=0, highlightthickness=0, relief="flat")
+solve_button.place(relx=0.4, rely=0.8, anchor="center")
+
+cerrar_button = tk.Button(left_frame, text="Close", command=cerrar)
+cerrar_button.config(bg="#009b88", fg="#ffffff", borderwidth=0, highlightthickness=0, relief="flat")
+cerrar_button.place(relx=0.4, rely=0.9, anchor="center")
+
+clean_button = tk.Button(left_frame, text="Clean", command=limpiar_grafica)
+clean_button.config(bg="#009b88", fg="#ffffff", borderwidth=0, highlightthickness=0, relief="flat")
+clean_button.place(relx=0.7, rely=0.8, anchor="center")
+
+window.mainloop()
+
+
+
+```
