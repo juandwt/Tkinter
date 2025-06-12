@@ -405,3 +405,211 @@ window.mainloop()
 
 
 ```
+# Implementado
+
+```python
+import tkinter as tk
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from scipy.integrate import solve_ivp
+from matplotlib.animation import FuncAnimation
+
+window = tk.Tk()
+window.config(bg="#ffffff")
+window.minsize(1000, 450)
+window.maxsize(1000, 450)
+
+left_frame = tk.Frame(window, width=200, height=450, bg="#009b88")
+left_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=False)
+left_frame.pack_propagate(False)
+
+right_frame = tk.Frame(window, width=800, height=450, bg="#ffffff")
+right_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=False)
+right_frame.pack_propagate(False)
+
+
+# Boton 1 -> velocidad (m/1) inicial de m1 
+
+v1_0_entry = tk.Entry(left_frame, width=6)
+v1_0_entry.place(relx=0.4, rely=0.4, anchor='center')
+v1_0 = tk.Label(left_frame, text=r'v1i', fg='#ffffff', bg='#009b88')
+v1_0.place(relx=0.4, rely=0.35, anchor='center')
+
+# Boton 2 -> masa m1 (kg)
+
+m1_0_entry = tk.Entry(left_frame, width=6)
+m1_0_entry.place(relx=0.7, rely=0.4, anchor='center')
+m1_0 = tk.Label(left_frame, text=r'm1', fg='#ffffff', bg='#009b88')
+m1_0.place(relx=0.7, rely=0.35, anchor='center')
+
+
+canvas = None
+
+def graficar():
+    global canvas
+    limpiar_grafica()
+
+    v1 = float(v1_0_entry.get())
+
+    m1 = 1    
+    m2 = 1
+    M  = 14
+    
+    alpha = np.radians(45)
+    beta  = np.radians(45)
+    
+    # velocidades del primer choque
+
+    v1f_magnitud = v1 / (np.cos(beta) + (np.sin(beta) * np.cos(alpha))/ np.sin(alpha))
+    v2f_magnitud = (m1 / m2) * (np.sin(beta) / np.sin(alpha)) * v1f_magnitud
+    
+    v1f = np.array([v1f_magnitud * np.cos(beta), v1f_magnitud * np.sin(beta)])    # [vx, vy]
+    v2f = np.array([v2f_magnitud * np.cos(alpha), -v2f_magnitud * np.sin(alpha)]) # [vx, -vy]
+    
+    # velocidades despues del primer choque 
+
+    # n -> N
+ 
+    eta   = np.radians(np.random.randint(0, 45)) #n
+    theta = np.radians(np.random.randint(0, 45)) #N
+
+    vf_n_2_M = 2  
+    vf_N_1_M = 2
+
+    
+    vf_n_2 =  np.array([vf_n_2_M * np.cos(eta), -vf_n_2_M * np.sin(eta)]) #[vx, vy]
+    vf_N_1 =  np.array([vf_N_1_M * np.cos(theta), vf_N_1_M * np.sin(theta)])
+
+    # p -> N 
+    
+    kappa   = np.radians(np.random.randint(0, 45)) #p
+    gamma   = np.radians(np.random.randint(0, 45)) #N
+    
+    vf_p_2_M = 2
+    vf_N_2_M = 2
+
+    vf_p_2 =  np.array([vf_n_2_M * np.cos(kappa), vf_n_2_M * np.sin(kappa)]) #[vx, vy]
+    vf_N_2 =  np.array([vf_N_1_M * np.cos(gamma), -vf_N_1_M * np.sin(gamma)])
+    
+    p1  = np.array([-5, 0])
+    p2  = np.array([0, 0])
+    
+    v1i = np.array([v1, 0])
+    v2i = np.array([0, 0])
+    
+    fig = plt.figure()
+    plt.xlim(-10, 10)
+    plt.ylim(-15, 15)
+    
+    plt.axvline(0, color="gray")
+    plt.axhline(0, color="gray")
+    
+    x_detector = [8, 8]
+    y_detector = [-10, 10]
+
+    plt.plot(x_detector, y_detector, color="black")
+
+    plt.plot()
+    
+    m1,  = plt.plot([0], [0], "o", color="#91a6ab",  markersize=10)
+    
+    
+    m2, = plt.plot([-5],[0], "o", color="#c60072", markersize=10)
+    
+    N1_r = np.array([5, 5])
+    N2_r = np.array([5, -5])
+
+    N1, = plt.plot([N1_r[0]], [N1_r[1]], "o", color="#2dc2ff", markersize=10)
+    N2, = plt.plot([N2_r[0]], [N2_r[1]], "o", color="#2dc2ff", markersize=10)
+    
+
+    t_col   = abs(p1[0] / v1i[0])
+    t_col_2 = abs(N1_r[0] / v1f[0] + t_col)   
+
+    def init():
+      m1.set_data([p1[0]], [p1[1]])
+      m2.set_data([p2[0]], [p2[1]])
+      N1.set_data([N1_r[0]], [N1_r[1]])
+      N2.set_data([N2_r[0]], [N2_r[1]])
+      return m1, m2, N1, N2
+    
+    def animate(t):
+      
+      x3 = N1_r[0] 
+      y3 = N1_r[1]
+      x4 = N2_r[0]
+      y4 = N2_r[1]
+    
+      if t < t_col:
+        
+        x1 = p1[0] + v1i[0] * t
+        y1 = p1[1]
+        
+        x2 = p2[0]
+        y2 = p2[1]
+    
+      else:
+        x1 = p2[0] + v1f[0] * (t - t_col)
+        y1 = p2[1] + v1f[1] * (t - t_col)
+        
+        x2 = p2[0] + v2f[0] * (t - t_col)
+        y2 = p2[1] + v2f[1] * (t - t_col)
+        
+        if t >= t_col_2:
+            x3 =  N1_r[0] + vf_N_1[0] * (t - t_col_2)
+            y3 =  N1_r[0] + vf_N_1[1] * (t - t_col_2)
+
+            x1 = N1_r[0] + vf_n_2[0] * (t - t_col_2)
+            y1 = N1_r[1] + vf_n_2[1] * (t - t_col_2)
+
+            x2 = N2_r[0] + vf_p_2[0] * ( t - t_col_2)
+            y2 = N2_r[1] + vf_p_2[1] * ( t - t_col_2)
+            
+            x4 = N2_r[0] + vf_N_2[0] * ( t - t_col_2)
+            y4 = N2_r[1] + vf_N_2[1] * ( t - t_col_2)
+    
+      m1.set_data([x1], [y1])
+      m2.set_data([x2], [y2])
+      N1.set_data([x3], [y3])
+      N2.set_data([x4], [y4])
+      plt.title(f"t = {t:.2f}")
+
+      return m1, m2, N1, N2
+    
+    ani = FuncAnimation(fig, animate, frames=np.linspace(0, 5, 200), init_func=init, 
+                        interval=30, repeat=False)
+    
+    
+    canvas = FigureCanvasTkAgg(fig, master=right_frame)
+    canvas.draw()
+    canvas.get_tk_widget().pack(side=tk.TOP, fill="both", expand=1)
+
+
+def limpiar_grafica():
+    global canvas
+    if canvas is not None:
+        canvas.get_tk_widget().pack_forget()  
+        canvas = None  
+
+def cerrar():
+    window.destroy()
+    window.quit()
+
+solve_button = tk.Button(left_frame, text="Solve", command=graficar)
+solve_button.config(bg="#009b88", fg="#ffffff", borderwidth=0, highlightthickness=0, relief="flat")
+solve_button.place(relx=0.4, rely=0.8, anchor="center")
+
+cerrar_button = tk.Button(left_frame, text="Close", command=cerrar)
+cerrar_button.config(bg="#009b88", fg="#ffffff", borderwidth=0, highlightthickness=0, relief="flat")
+cerrar_button.place(relx=0.4, rely=0.9, anchor="center")
+
+clean_button = tk.Button(left_frame, text="Clean", command=limpiar_grafica)
+clean_button.config(bg="#009b88", fg="#ffffff", borderwidth=0, highlightthickness=0, relief="flat")
+clean_button.place(relx=0.7, rely=0.8, anchor="center")
+
+window.mainloop()
+
+
+```
+
